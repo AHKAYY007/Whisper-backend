@@ -10,6 +10,8 @@ import (
 	"gorm.io/gorm"
 )
 
+var DB *gorm.DB
+
 func getDatabaseURL() string {
 	if err := godotenv.Load(); err != nil {
 		log.Println("⚠️  No .env file found, using default database path")
@@ -22,7 +24,8 @@ func getDatabaseURL() string {
 }
 
 func ConnectDatabase() (*gorm.DB, error) {
-	db, err := gorm.Open(sqlite.Open(getDatabaseURL()), &gorm.Config{})
+	var err error
+	DB, err = gorm.Open(sqlite.Open(getDatabaseURL()), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
@@ -30,10 +33,10 @@ func ConnectDatabase() (*gorm.DB, error) {
 	log.Println("✅ Database connected successfully!")
 	log.Println("📦 Running migrations...")
 
-	if err := db.AutoMigrate(&models.Business{}, &models.Review{}); err != nil {
+	if err := DB.AutoMigrate(&models.Business{}, &models.Review{}); err != nil {
 		log.Fatal("❌ Migration failed:", err)
 	}
 
 	log.Println("🎉 Migrations completed successfully")
-	return db, nil
+	return DB, nil
 }

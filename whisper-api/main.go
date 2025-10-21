@@ -10,6 +10,7 @@ import (
 	"github.com/joho/godotenv"
 
 	"github.com/AHKAYY007/Whisper-backend/config"
+	"github.com/AHKAYY007/Whisper-backend/routers"
 )
 
 func main() {
@@ -37,6 +38,8 @@ func main() {
 			"status":  "API is running successfully ✅",
 		})
 	})
+
+	routers.RegisterBusinessRoutes(router)
 
 	// Get port from env or default to 8080
 	port := os.Getenv("PORT")
