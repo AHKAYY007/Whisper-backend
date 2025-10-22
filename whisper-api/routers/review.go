@@ -8,9 +8,9 @@ import (
 )
 
 func RegisterReviewRoutes(router *gin.Engine, db *gorm.DB) {
-	reviewGroup := router.Group("/reviews")
+	reviewGroup := router.Group("/review")
 	{
-		reviewGroup.POST("/", controllers.CreateReview(db))
+		reviewGroup.POST("", controllers.CreateReview(db))
 		reviewGroup.GET("/business/:id", controllers.GetBusinessReviews(db))
 	}
 }
