@@ -40,6 +40,7 @@ func main() {
 	})
 
 	routers.RegisterBusinessRoutes(router)
+	routers.RegisterReviewRoutes(router, db)
 
 	// Get port from env or default to 8080
 	port := os.Getenv("PORT")
