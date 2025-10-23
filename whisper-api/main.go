@@ -28,6 +28,10 @@ func main() {
 
 	fmt.Println("Welcome to the Whisper API powered by Applift Labs 🚀")
 
+	if err := os.MkdirAll("uploads/business", os.ModePerm); err != nil {
+        log.Fatalf("failed to create uploads directory: %v", err)
+    }
+
 	// Initialize Gin router
 	router := gin.Default()
 
@@ -38,6 +42,8 @@ func main() {
 			"status":  "API is running successfully ✅",
 		})
 	})
+
+	router.Static("/uploads", "./uploads")
 
 	routers.RegisterBusinessRoutes(router)
 	routers.RegisterReviewRoutes(router, db)

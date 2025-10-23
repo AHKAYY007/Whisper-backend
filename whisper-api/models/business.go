@@ -9,11 +9,12 @@ import (
 
 type Business struct {
 	ID           string    `json:"id" gorm:"primaryKey"`
-	Name         string    `json:"name" gorm:"not null"`
+	Name         string    `json:"name" binding:"required" gorm:"not null"`
 	Slug         string    `json:"slug" gorm:"uniqueIndex"`
-	Category     string    `json:"category"`
-	City         string    `json:"city"`
-	Address      string    `json:"address"`
+	Category     string    `json:"category" binding:"required"`
+	City         string    `json:"city" binding:"required"`
+	Address      string    `json:"address" binding:"required"`
+	ImageURL     string    `json:"image_url" gorm:"type:text"`
 	AvgRating    float64   `json:"avg_rating" gorm:"default:0"`
 	ReviewCount  int       `json:"review_count" gorm:"default:0"`
 	Verified     bool      `json:"verified" gorm:"default:false"`
@@ -28,17 +29,3 @@ func (b *Business) BeforeCreate(tx *gorm.DB) (err error) {
 	}
 	return
 }
-
-// TODO: implement the automatic field validation by gin binding tags
-
-// type Business struct {
-// 	ID          string    `json:"id" gorm:"primaryKey"`
-// 	Name        string    `json:"name" binding:"required" gorm:"not null"`
-// 	Category    string    `json:"category" binding:"required"`
-// 	City        string    `json:"city" binding:"required"`
-// 	Address     string    `json:"address" binding:"required"`
-// 	AvgRating   float64   `json:"avg_rating" gorm:"default:0"`
-// 	ReviewCount int       `json:"review_count" gorm:"default:0"`
-// 	Verified    bool      `json:"verified" gorm:"default:false"`
-// 	CreatedAt   time.Time `json:"created_at" gorm:"autoCreateTime"`
-// }
