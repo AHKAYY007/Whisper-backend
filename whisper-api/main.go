@@ -24,7 +24,6 @@ func main() {
 	if err != nil {
 		log.Fatal("❌ Failed to connect to database:", err)
 	}
-	_ = db // suppress unused warning until we use it in controllers
 
 	fmt.Println("Welcome to the Whisper API powered by Applift Labs 🚀")
 
