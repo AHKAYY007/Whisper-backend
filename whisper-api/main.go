@@ -1,14 +1,11 @@
 package main
-
 import (
 	"fmt"
 	"log"
 	"net/http"
 	"os"
-
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-
 	"github.com/AHKAYY007/Whisper-backend/config"
 	"github.com/AHKAYY007/Whisper-backend/routers"
 )
