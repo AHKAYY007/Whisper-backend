@@ -6,7 +6,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/AHKAYY007/Whisper-backend/models"
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -14,23 +14,26 @@ var DB *gorm.DB
 
 func getDatabaseURL() string {
 	if err := godotenv.Load(); err != nil {
-		log.Println("⚠️  No .env file found, using default database path")
+		log.Println("⚠️  No .env file found, using system environment variables")
 	}
-	dbPath := os.Getenv("DEV_DB_URL")
-	if dbPath == "" {
-		dbPath = "whisper.db"
+	dsn := os.Getenv("DATABASE_URL")
+	if dsn == "" {
+		log.Fatal("❌ DATABASE_URL not set — please add it to your Railway variables or .env file")
 	}
-	return dbPath
+	return dsn
 }
 
 func ConnectDatabase() (*gorm.DB, error) {
-	var err error
-	DB, err = gorm.Open(sqlite.Open(getDatabaseURL()), &gorm.Config{})
+	dsn := getDatabaseURL()
+
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
 
-	log.Println("✅ Database connected successfully!")
+	DB = db
+
+	log.Println("✅ Connected to PostgreSQL successfully!")
 	log.Println("📦 Running migrations...")
 
 	if err := DB.AutoMigrate(&models.Business{}, &models.Review{}); err != nil {
