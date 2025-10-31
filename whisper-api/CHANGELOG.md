@@ -32,5 +32,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - SQLite database
   - Business and Review models
   - CRUD endpoints for `/business` and `/review`
+  - Add ContactInfo struct and implement sql.Scanner and driver.Valuer interfaces
 
 ---
